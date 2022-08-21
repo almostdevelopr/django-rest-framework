@@ -12,9 +12,14 @@ def index(request):
         'course_provide': 'Youtube'
     }
     if request.method == 'GET':
+        print(request.GET.get('search'))  # to get search keyword
         print('You hit a GET method.')
         return Response(courses)
     elif request.method == 'POST':
+        data = request.data
+        print('******')
+        print(data['name'])
+        print('******')
         print('You hit a POST method.')
         return Response(courses)
     elif request.method == 'PUT':
