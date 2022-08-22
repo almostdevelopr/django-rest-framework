@@ -1,7 +1,7 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from home.models import Person
-from home.serializers import PersonSerializer
+from home.serializers import LoginSerializer, PersonSerializer
 
 
 # Create your views here.
@@ -31,6 +31,19 @@ def index(request):
     elif request.method == 'PUT':
         print('You hit a PUT method.')
         return Response(courses)
+
+
+@api_view(['POST'])
+def login(request):
+    data = request.data
+    serializer = LoginSerializer(data=data)
+
+    if serializer.is_valid():
+        data = serializer.data
+        print(data)
+        return Response({"message": "sucess"})
+
+    return Response(serializer.errors)
 
 
 @api_view(['GET', 'POST', 'PUT', 'PATCH', 'DELETE'])
