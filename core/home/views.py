@@ -37,7 +37,7 @@ def index(request):
 def person(request):
     """A simple attempt to serialize the person model's data."""
     if request.method == 'GET':
-        persons = Person.objects.all()
+        persons = Person.objects.filter(color__isnull=False)
         serializer = PersonSerializer(persons, many=True)
         return Response(serializer.data)
 

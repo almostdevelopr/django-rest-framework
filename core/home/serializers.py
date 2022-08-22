@@ -1,14 +1,24 @@
+from dataclasses import fields
 from rest_framework import serializers
-from home.models import Person
+from home.models import Color, Person
+
+
+class ColorSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Color
+        fields = ['color_name']
 
 
 class PersonSerializer(serializers.ModelSerializer):
 
+    color = ColorSerializer()
+
     class Meta:
         """An inner class ro know which model to serialize."""
         model = Person
-        # exclude = ['name']
         fields = "__all__"
+        # depth = 1
 
     def validate(self, data):
         speacial_characters = "!@#$%^&*()_+?_+,<>/"
