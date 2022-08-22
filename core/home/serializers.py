@@ -3,19 +3,20 @@ from home.models import Color, Person
 
 
 class LoginSerializer(serializers.Serializer):
+    """A simple login serializer."""
     email = serializers.EmailField()
     password = serializers.CharField()
 
 
 class ColorSerializer(serializers.ModelSerializer):
-
+    """A simple color serializer."""
     class Meta:
         model = Color
         fields = ['color_name']
 
 
 class PersonSerializer(serializers.ModelSerializer):
-
+    """A serializer representing a person."""
     color = ColorSerializer()
     color_info = serializers.SerializerMethodField()
 
