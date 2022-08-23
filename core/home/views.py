@@ -7,6 +7,8 @@ from rest_framework.views import APIView
 
 from rest_framework import viewsets
 
+from rest_framework import status
+
 # Create your views here.
 
 
@@ -167,4 +169,4 @@ class PersonViewSet(viewsets.ModelViewSet):
                 name__startswith=search)  # starts with 'char'
 
         serializer = PersonSerializer(queryset, many=True)
-        return Response({"status": 200, "data": serializer.data})
+        return Response({"status": 200, "data": serializer.data}, status=status.HTTP_204_NO_CONTENT)
