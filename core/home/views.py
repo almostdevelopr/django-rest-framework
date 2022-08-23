@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from home.models import Person
 from home.serializers import LoginSerializer, PersonSerializer
 
+from rest_framework.views import APIView
 
 # Create your views here.
 
@@ -44,6 +45,56 @@ def login(request):
         return Response({"message": "sucess"})
 
     return Response(serializer.errors)
+
+
+class PersonAPI(APIView):
+    """An APIView view class to handle all the requests methods."""
+
+    def get(self, request):
+        persons = Person.objects.filter(color__isnull=False)
+        serializer = PersonSerializer(persons, many=True)
+        return Response(serializer.data)
+        # return Response({"message": "This is get request."})
+
+    def post(self, request):
+        data = request.data
+        serializer = PersonSerializer(data=data)
+
+        # check if data is valid
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors)
+        # return Response({"message": "This is post request."})
+
+    def put(self, request):
+        data = request.data
+        obj = Person.objects.get(id=data['id'])
+        serializer = PersonSerializer(obj, data=data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors)
+        # return Response({"message": "This is put request."})
+
+    def patch(self, request):
+        data = request.data
+        obj = Person.objects.get(id=data['id'])
+        serializer = PersonSerializer(obj, data=data, partial=True)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors)
+        # return Response({"message": "This is patch request."})
+
+    def delete(self, request):
+        data = request.data
+        obj = Person.objects.get(id=data['id'])
+        obj.delete()
+        return Response({"message": "Person deleted"})
+        # return Response({"message": "This is delete request."})
 
 
 @api_view(['GET', 'POST', 'PUT', 'PATCH', 'DELETE'])
