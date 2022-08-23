@@ -8,6 +8,7 @@ from rest_framework.views import APIView
 from rest_framework import viewsets
 
 from rest_framework import status
+from django.contrib.auth.models import User
 
 # Create your views here.
 
