@@ -144,7 +144,8 @@ def person(request):
 
 
 class PersonViewSet(viewsets.ModelViewSet):
-    """A ViewSet class is simply a type of class-based View, that does not provide any method
+    """
+    A ViewSet class is simply a type of class-based View, that does not provide any method
     handlers such as .get() or .post(), and instead provides actions such as .list() and .create().
     The method handlers for a ViewSet are only bound to the corresponding actions at the point of
     finalizing the view, using the .as_view() method.
@@ -155,3 +156,14 @@ class PersonViewSet(viewsets.ModelViewSet):
     """
     serializer_class = PersonSerializer
     queryset = Person.objects.all()
+
+    def list(self, request):
+        """Modifying deafault search functionality."""
+
+        search = request.GET.get('search')
+        queryset = self.queryset
+        if search:
+            queryset = queryset.filter(name__startswith=search)
+
+        serializer = PersonSerializer(queryset, many=True)
+        return Response({"status": 200, "data": serializer.data})
