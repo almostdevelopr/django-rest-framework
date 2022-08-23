@@ -160,10 +160,11 @@ class PersonViewSet(viewsets.ModelViewSet):
     def list(self, request):
         """Modifying deafault search functionality."""
 
-        search = request.GET.get('search')
+        search = request.GET.get('search')  # to get search keyword
         queryset = self.queryset
         if search:
-            queryset = queryset.filter(name__startswith=search)
+            queryset = queryset.filter(
+                name__startswith=search)  # starts with 'char'
 
         serializer = PersonSerializer(queryset, many=True)
         return Response({"status": 200, "data": serializer.data})
