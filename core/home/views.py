@@ -5,6 +5,8 @@ from home.serializers import LoginSerializer, PersonSerializer
 
 from rest_framework.views import APIView
 
+from rest_framework import viewsets
+
 # Create your views here.
 
 
@@ -139,3 +141,17 @@ def person(request):
     obj = Person.objects.get(id=data['id'])
     obj.delete()
     return Response({"message": "Person deleted"})
+
+
+class PersonViewSet(viewsets.ModelViewSet):
+    """A ViewSet class is simply a type of class-based View, that does not provide any method
+    handlers such as .get() or .post(), and instead provides actions such as .list() and .create().
+    The method handlers for a ViewSet are only bound to the corresponding actions at the point of
+    finalizing the view, using the .as_view() method.
+
+
+    Typically, rather than explicitly registering the views in a viewset in the urlconf, you'll
+    register the viewset with a router class, that automatically determines the urlconf for you.
+    """
+    serializer_class = PersonSerializer
+    queryset = Person.objects.all()

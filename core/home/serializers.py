@@ -18,7 +18,7 @@ class ColorSerializer(serializers.ModelSerializer):
 class PersonSerializer(serializers.ModelSerializer):
     """A serializer representing a person."""
     color = ColorSerializer()
-    color_info = serializers.SerializerMethodField()
+    # color_info = serializers.SerializerMethodField()
 
     class Meta:
         """An inner class ro know which model to serialize."""
@@ -26,10 +26,10 @@ class PersonSerializer(serializers.ModelSerializer):
         fields = "__all__"
         # depth = 1
 
-    def get_color_info(self, obj):
-        color_obj = Color.objects.get(id=obj.color.id)
+    # def get_color_info(self, obj):
+    #     color_obj = Color.objects.get(id=obj.color.id)
 
-        return {"color_name": color_obj.color_name, "hex_code": "#000"}
+    #     return {"color_name": color_obj.color_name, "hex_code": "#000"}
 
     def validate(self, data):
         speacial_characters = "!@#$%^&*()_+?_+,<>/"
